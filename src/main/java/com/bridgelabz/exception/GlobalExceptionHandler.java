@@ -13,6 +13,40 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // Handles destination not found
+    @ExceptionHandler(DestinationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleDestinationNotFound(
+            DestinationNotFoundException exception) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                LocalDateTime.now(),
+                null
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
+    // Handles travel package not found
+    @ExceptionHandler(TravelPackageNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTravelPackageNotFound(
+            TravelPackageNotFoundException exception) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                LocalDateTime.now(),
+                null
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
     // Handles user not found
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(
@@ -30,7 +64,6 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-
     // Handles duplicate email
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateEmail(
@@ -47,7 +80,6 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(response);
     }
-
 
     // Handles validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -76,7 +108,6 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
-
 
     // Handles unexpected errors
     @ExceptionHandler(Exception.class)
