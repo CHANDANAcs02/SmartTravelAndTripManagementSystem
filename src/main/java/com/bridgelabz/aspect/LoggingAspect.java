@@ -13,8 +13,8 @@ public class LoggingAspect {
 
     // Applies logging to all methods inside the service package
     @Around("execution(* com.bridgelabz.service..*(..))")
-    public Object logServiceMethods(
-            ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logServiceMethods(ProceedingJoinPoint joinPoint)
+            throws Throwable {
 
         Logger logger =
                 LoggerFactory.getLogger(
@@ -32,7 +32,6 @@ public class LoggingAspect {
 
         long startTime = System.currentTimeMillis();
 
-        // INFO: Service method started
         logger.info(
                 "Service started - Class: {}, Method: {}",
                 className,
@@ -46,7 +45,6 @@ public class LoggingAspect {
             long executionTime =
                     System.currentTimeMillis() - startTime;
 
-            // INFO: Successful execution
             logger.info(
                     "Service completed - Class: {}, Method: {}, Execution Time: {} ms",
                     className,
@@ -54,7 +52,6 @@ public class LoggingAspect {
                     executionTime
             );
 
-            // DEBUG: Method result
             logger.debug(
                     "Service result - Class: {}, Method: {}, Result: {}",
                     className,
@@ -69,7 +66,6 @@ public class LoggingAspect {
             long executionTime =
                     System.currentTimeMillis() - startTime;
 
-            // WARN: Log expected business exceptions
             logger.warn(
                     "Service warning - Class: {}, Method: {}, Error: {}",
                     className,
@@ -77,7 +73,6 @@ public class LoggingAspect {
                     exception.getMessage()
             );
 
-            // ERROR: Log service failure
             logger.error(
                     "Service failed - Class: {}, Method: {}, Execution Time: {} ms",
                     className,
