@@ -142,4 +142,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
+ //Handles notification not found.
+     @ExceptionHandler(NotificationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotificationNotFound(NotificationNotFoundException exception){
+         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                 exception.getMessage(),
+                 LocalDateTime.now(), null);
+         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+     }
 }
