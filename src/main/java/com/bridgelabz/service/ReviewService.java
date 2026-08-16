@@ -12,6 +12,7 @@ import com.bridgelabz.repository.ReviewRepository;
 import com.bridgelabz.repository.UserRepository;
 import com.bridgelabz.repository.TravelPackageRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final TravelPackageRepository travelPackageRepository;
+    @Autowired
+    private NotificationService notificationService;
 
     public ReviewService(ReviewRepository reviewRepository,
                          UserRepository userRepository,
@@ -60,6 +63,8 @@ public class ReviewService {
         // Save the review in the database.
         Review savedReview = reviewRepository.save(review);
 
+        //creating notification for user save
+        notificationService.createNotification(user,"Your review was added successfully.","REVIEW");
         return convertToResponse(savedReview);
     }
 
