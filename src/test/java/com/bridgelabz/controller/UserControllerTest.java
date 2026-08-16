@@ -20,12 +20,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(UserController.class)
@@ -246,5 +243,15 @@ class UserControllerTest {
                                 )
                 )
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    void deleteUserChandana() throws Exception {
+        when(userService.deleteUser(1L)).thenReturn("Chandana is Removed");
+
+        mockMvc.perform(delete("/api/users/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Chandana is Removed"));
+
     }
 }
