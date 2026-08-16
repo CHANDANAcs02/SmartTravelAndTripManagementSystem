@@ -1,8 +1,10 @@
 package com.bridgelabz.service;
 
 import com.bridgelabz.dto.response.NotificationResponseDTO;
+import com.bridgelabz.exception.NotificationNotFoundException;
 import com.bridgelabz.exception.UserNotFoundException;
 import com.bridgelabz.model.Notification;
+import com.bridgelabz.model.User;
 import com.bridgelabz.repository.NotificationRepository;
 import com.bridgelabz.repository.UserRepository;
 
@@ -22,6 +24,16 @@ public class NotificationService {
         this.userRepository = userRepository;
     }
 
+    //Create notification when review saved
+    public NotificationResponseDTO createNotification(User user, String message, String type) {
+        Notification notification = new Notification();
+        notification.setMessage(message);
+        notification.setUser(user);
+        notification.setStatus("UNREAD");
+        notification.setType(type);
+        return convertToResponse(notificationRepository.save(notification));
+    }
+
     // Retrieves all notifications belonging to the requested user.
     public List<NotificationResponseDTO> getNotificationsByUser(Long userId) {
 
@@ -39,6 +51,14 @@ public class NotificationService {
                 .toList();
     }
 
+    //Notification mark as read
+    public NotificationResponseDTO markAsRead(Long id) throws NotificationNotFoundException {
+
+        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new NotificationNotFoundException("Notification id not found"));
+        notification.setStatus("READ");
+        return convertToResponse(notificationRepository.save(notification));
+    }
+
     // Converts the Notification entity into a response DTO.
     private NotificationResponseDTO convertToResponse(Notification notification) {
 
@@ -50,4 +70,8 @@ public class NotificationService {
                 notification.getUser().getId()
         );
     }
+
+
+
+
 }
