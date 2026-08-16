@@ -1,6 +1,7 @@
 package com.bridgelabz.controller;
 
 import com.bridgelabz.dto.response.NotificationResponseDTO;
+import com.bridgelabz.exception.NotificationNotFoundException;
 import com.bridgelabz.service.NotificationService;
 
 import org.springframework.http.ResponseEntity;
@@ -28,4 +29,11 @@ public class NotificationController {
 
         return ResponseEntity.ok(notifications);
     }
+
+    //Endpoint 20: Mark Notification as read
+    @PostMapping("/notification/{id}/read")
+    public ResponseEntity<NotificationResponseDTO> readNotification(@PathVariable Long id) throws NotificationNotFoundException {
+       return ResponseEntity.ok( notificationService.markAsRead(id));
+    }
+
 }
