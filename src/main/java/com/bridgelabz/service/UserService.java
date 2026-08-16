@@ -103,6 +103,14 @@ public class UserService {
     }
 
 
+    //Delete user by user id
+    public String deleteUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        userRepository.delete(user);
+        return user.getName()+" is Removed";
+    }
+
+
 
 
 
